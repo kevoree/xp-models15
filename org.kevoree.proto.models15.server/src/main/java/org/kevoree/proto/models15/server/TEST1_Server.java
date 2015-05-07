@@ -99,7 +99,7 @@ public class TEST1_Server {
 
 
     public static void main(String[] args) {
-        new TEST1_Server().start(10000);
+        new TEST1_Server().start(100000);
     }
 
 }

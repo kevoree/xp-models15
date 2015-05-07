@@ -44,6 +44,8 @@ public class TEST1_ClientOpPerSec {
                                 smartGridRoot.traversal().traverse(MetaSmartGrid.REF_METERS).withAttribute(MetaSmartMeter.ATT_NAME, "" + (int) (sizeOfMeters / 3)).done().then(new Callback<KObject[]>() {
                                     @Override
                                     public void on(KObject[] kObjects) {
+                                        long end = System.nanoTime();
+                                        System.out.println("Read:" + ((end-start)/1000000));
                                         SmartMeter meter = (SmartMeter) kObjects[0];
                                         meter.jump(System.currentTimeMillis()).then(new Callback<KObject>() {
                                             @Override

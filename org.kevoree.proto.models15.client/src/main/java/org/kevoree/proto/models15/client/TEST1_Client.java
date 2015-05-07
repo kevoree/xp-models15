@@ -65,7 +65,7 @@ public class TEST1_Client {
     }
 
     public static void main(String[] args) {
-        for(int i = 0; i < 200; i++) {
+        for(int i = 0; i < 1; i++) {
             TEST1_Client c = new TEST1_Client();
             c.start();
         }
