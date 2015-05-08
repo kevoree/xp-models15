@@ -29,7 +29,7 @@ public class TEST2_Server {
 
         smartGridModel = new SmartGridModel();
 
-        RedisContentDeliveryDriver driver = new RedisContentDeliveryDriver("10.151.0.134", 6379);
+        RedisContentDeliveryDriver driver = new RedisContentDeliveryDriver("192.168.1.124", 6379);
         smartGridModel.setContentDeliveryDriver(driver);
 
 //        smartGridModel.setContentDeliveryDriver(new WebSocketWrapper(smartGridModel.manager().cdn(), 8080));
