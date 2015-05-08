@@ -11,6 +11,7 @@ class org.kevoree.test.models15.SmartMeter {
 
 class org.kevoree.test.models15.Concentrator {
     name : String
+    consumption: Int
     @contained meters : org.kevoree.test.models15.SmartMeter[0,*]
     @contained concentrators : org.kevoree.test.models15.Concentrator[0,*]
 }
