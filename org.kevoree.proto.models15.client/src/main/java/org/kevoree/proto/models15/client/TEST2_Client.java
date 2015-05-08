@@ -59,7 +59,7 @@ public class TEST2_Client {
         smartGridModel = new SmartGridModel();
         //smartGridModel.setContentDeliveryDriver(new WebSocketClient("ws://localhost:8080"));
 
-        RedisContentDeliveryDriver driver = new RedisContentDeliveryDriver("10.91.0.134", 6379);
+        RedisContentDeliveryDriver driver = new RedisContentDeliveryDriver("10.151.0.134", 6379);
         smartGridModel.setContentDeliveryDriver(driver);
 
         smartGridModel.connect().then(new Callback<Throwable>() {
