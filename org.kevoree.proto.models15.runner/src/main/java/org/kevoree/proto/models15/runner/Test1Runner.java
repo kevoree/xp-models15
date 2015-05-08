@@ -13,7 +13,7 @@ public class Test1Runner {
     public static void main(String[] args) {
 
         TEST1_Server server = new TEST1_Server();
-        server.start(3, 3, 25000, new Runnable() {
+        server.start(5, 6, 40, new Runnable() {
             public void run() {
                 TEST1_Client client = new TEST1_Client();
                 client.start(new Runnable() {
