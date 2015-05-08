@@ -4,6 +4,7 @@ import org.kevoree.modeling.api.Callback;
 import org.kevoree.modeling.api.KDefer;
 import org.kevoree.modeling.api.KObject;
 import org.kevoree.modeling.api.data.manager.AccessMode;
+import org.kevoree.modeling.databases.redis.RedisContentDeliveryDriver;
 import org.kevoree.modeling.databases.websocket.WebSocketClient;
 import org.kevoree.proto.models15.SmartGridModel;
 import org.kevoree.proto.models15.SmartGridUniverse;
@@ -58,7 +59,10 @@ public class TEST2_Client {
 //        System.out.println("nodeId: " + nodeId);
 
         smartGridModel = new SmartGridModel();
-        smartGridModel.setContentDeliveryDriver(new WebSocketClient("ws://localhost:8080"));
+        //smartGridModel.setContentDeliveryDriver(new WebSocketClient("ws://localhost:8080"));
+
+        RedisContentDeliveryDriver driver = new RedisContentDeliveryDriver("localhost", 6379);
+        smartGridModel.setContentDeliveryDriver(driver);
 
         smartGridModel.connect().then(new Callback<Throwable>() {
             @Override

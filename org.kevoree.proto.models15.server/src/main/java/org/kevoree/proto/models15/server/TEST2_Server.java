@@ -30,16 +30,10 @@ public class TEST2_Server {
 
         smartGridModel = new SmartGridModel();
 
-//        RedisContentDeliveryDriver driver = new RedisContentDeliveryDriver("10.91.1.32", 6379);
-//        smartGridModel.setContentDeliveryDriver(driver);
-//        driver.connect(new Callback<Throwable>() {
-//            @Override
-//            public void on(Throwable throwable) {
-//                System.out.println("works");
-//            }
-//        });
+        RedisContentDeliveryDriver driver = new RedisContentDeliveryDriver("localhost", 6379);
+        smartGridModel.setContentDeliveryDriver(driver);
 
-        smartGridModel.setContentDeliveryDriver(new WebSocketWrapper(smartGridModel.manager().cdn(), 8080));
+//        smartGridModel.setContentDeliveryDriver(new WebSocketWrapper(smartGridModel.manager().cdn(), 8080));
 
         smartGridModel.connect().then(new Callback<Throwable>() {
             @Override
