@@ -54,6 +54,8 @@ public class TEST2_Client {
     private SmartGridModel smartGridModel;
 
     public void start(Runnable next) {
+        long nodeId = System.currentTimeMillis() + (0 + (int) (Math.random() * 100000));
+//        System.out.println("nodeId: " + nodeId);
 
         smartGridModel = new SmartGridModel();
         smartGridModel.setContentDeliveryDriver(new WebSocketClient("ws://localhost:8080"));
@@ -86,29 +88,29 @@ public class TEST2_Client {
                                     System.out.println("client found: " + c.getName());
 
                                     c.listen(0, (kObject1, metas) -> {
-                                        System.out.println("...change received");
+                                        System.out.println(nodeId + " change received at " + System.currentTimeMillis());
                                     });
                                 });
                                 defer.ready();
 
 
-                                int concentratorIndex = smartGridRoot.sizeOfConcentrators() / 3;
-                                long concentratorUUID = smartGridRoot.universe().model().manager().entry(smartGridRoot, AccessMode.READ).getRef(MetaSmartGrid.REF_CONCENTRATORS.index())[concentratorIndex];
-                                getDeepestConcentrator(smartGridView, concentratorUUID).then(new Callback<Concentrator>() {
-                                    @Override
-                                    public void on(Concentrator concentrator) {
-                                        //System.out.println("Concentrator:" + concentrator);
-                                        concentrator.getMeters().then(new Callback<SmartMeter[]>() {
-                                            public void on(SmartMeter[] smartMeters) {
-                                                long end = System.nanoTime();
-                                                System.out.println("ReadTime:" + ((end - start) / 1000000));
-                                                if (next != null) {
-                                                    next.run();
-                                                }
-                                            }
-                                        });
-                                    }
-                                });
+//                                int concentratorIndex = smartGridRoot.sizeOfConcentrators() / 3;
+//                                long concentratorUUID = smartGridRoot.universe().model().manager().entry(smartGridRoot, AccessMode.READ).getRef(MetaSmartGrid.REF_CONCENTRATORS.index())[concentratorIndex];
+//                                getDeepestConcentrator(smartGridView, concentratorUUID).then(new Callback<Concentrator>() {
+//                                    @Override
+//                                    public void on(Concentrator concentrator) {
+//                                        //System.out.println("Concentrator:" + concentrator);
+//                                        concentrator.getMeters().then(new Callback<SmartMeter[]>() {
+//                                            public void on(SmartMeter[] smartMeters) {
+//                                                long end = System.nanoTime();
+//                                                System.out.println("ReadTime:" + ((end - start) / 1000000));
+//                                                if (next != null) {
+//                                                    next.run();
+//                                                }
+//                                            }
+//                                        });
+//                                    }
+//                                });
 
                             } else {
                                 System.err.println("Root not found");

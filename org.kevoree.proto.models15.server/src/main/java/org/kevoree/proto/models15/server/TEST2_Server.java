@@ -92,7 +92,6 @@ public class TEST2_Server {
             e.printStackTrace();
         }
 
-        System.out.println("loading concentrator...");
         // load smart meter 1_1
         KDefer defer = server.grid.traversal().traverse(MetaSmartGrid.REF_CONCENTRATORS)
                 .withAttribute(MetaConcentrator.ATT_NAME, "c")
@@ -105,12 +104,11 @@ public class TEST2_Server {
             try {
                 KObject[] resultArr = (KObject[]) kCurrentDefer.resultByDefer(defer);
                 Concentrator c = (Concentrator) resultArr[0];
-                System.out.println("found: " + c.getName());
 
                 while (true) {
                     // changing value
                     Thread.sleep(5000);
-                    System.out.println("change value...");
+                    System.out.println("change value..." + System.currentTimeMillis());
 
                     c.setConsumption(5);
                     server.smartGridModel.save();
