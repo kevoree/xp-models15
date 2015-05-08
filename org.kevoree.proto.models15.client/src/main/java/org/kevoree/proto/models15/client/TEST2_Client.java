@@ -90,7 +90,7 @@ public class TEST2_Client {
                                     //System.out.println("client found: " + c.getName());
 
                                     c.listen(0, (kObject1, metas) -> {
-                                        System.out.println((System.currentTimeMillis() - kObject1.now()));
+                                        System.out.println("/" + (System.currentTimeMillis() - kObject1.now()) + "/");
                                     });
                                 });
                                 defer.ready();
