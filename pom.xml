@@ -18,7 +18,6 @@
         <module>org.kevoree.proto.models15.client</module>
         <module>org.kevoree.proto.models15.model</module>
         <module>org.kevoree.proto.models15.runner</module>
-        <module>org.kevoree.proto.models15.stats.model</module>
     </modules>
 
 

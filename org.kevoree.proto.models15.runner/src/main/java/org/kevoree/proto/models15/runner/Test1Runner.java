@@ -1,24 +1,40 @@
 package org.kevoree.proto.models15.runner;
 
 
+import org.kevoree.modeling.api.Callback;
+import org.kevoree.proto.models15.client.TEST1_Client;
+import org.kevoree.proto.models15.server.TEST1_Server;
+
 /**
  * Created by gnain on 07/05/15.
  */
 public class Test1Runner {
 
-
-    private int[] modelSizes = new int[]{100, 1000, 10000, 100000};
-
-    private final int[] modelSizeIndex = {0};
-    private final int[] clientsSizeIndex = {0};
-
-
-
-
     public static void main(String[] args) {
+
+        TEST1_Server server = new TEST1_Server();
+        server.start(8, 4, 10, new Runnable() {
+            public void run() {
+                TEST1_Client client = new TEST1_Client();
+                client.start(new Runnable() {
+                    @Override
+                    public void run() {
+                        client.stop(new Runnable() {
+                            @Override
+                            public void run() {
+                                server.stop(new Callback<Throwable>() {
+                                    @Override
+                                    public void on(Throwable throwable) {
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
 
 
     }
-
 
 }

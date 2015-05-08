@@ -11,7 +11,7 @@ import org.kevoree.test.models15.SmartGrid;
 /**
  * Created by gnain on 07/05/15.
  */
-public class TEST1_ClientOpPerSec {
+public class TEST3_ClientOpPerSec {
 
     private long rootUuid;
     public long originOfTime = 0L;
@@ -74,7 +74,7 @@ public class TEST1_ClientOpPerSec {
 
     public static void main(String[] args) {
         for (int i = 0; i < 1; i++) {
-            TEST1_ClientOpPerSec c = new TEST1_ClientOpPerSec();
+            TEST3_ClientOpPerSec c = new TEST3_ClientOpPerSec();
             c.start();
         }
     }
