@@ -1,0 +1,15 @@
+{
+  "images": {
+    "thomas/models15": "/Users/thomas/xp-models15/image/"
+  },
+  "containers": {
+    "node": {
+      "image": "thomas/models15"
+    }
+  },
+  "clusters": {
+    "main": ["node(2)"]
+  },
+  "groups": {
+  }
+}
