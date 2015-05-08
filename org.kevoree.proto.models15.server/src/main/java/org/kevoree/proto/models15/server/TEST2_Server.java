@@ -4,7 +4,6 @@ import org.kevoree.modeling.api.Callback;
 import org.kevoree.modeling.api.KDefer;
 import org.kevoree.modeling.api.KObject;
 import org.kevoree.modeling.databases.redis.RedisContentDeliveryDriver;
-import org.kevoree.modeling.databases.websocket.WebSocketWrapper;
 import org.kevoree.proto.models15.SmartGridModel;
 import org.kevoree.proto.models15.SmartGridUniverse;
 import org.kevoree.proto.models15.SmartGridView;
@@ -30,7 +29,7 @@ public class TEST2_Server {
 
         smartGridModel = new SmartGridModel();
 
-        RedisContentDeliveryDriver driver = new RedisContentDeliveryDriver("localhost", 6379);
+        RedisContentDeliveryDriver driver = new RedisContentDeliveryDriver("10.91.0.133", 6379);
         smartGridModel.setContentDeliveryDriver(driver);
 
 //        smartGridModel.setContentDeliveryDriver(new WebSocketWrapper(smartGridModel.manager().cdn(), 8080));
@@ -114,10 +113,13 @@ public class TEST2_Server {
                 while (true) {
                     // changing value
                     Thread.sleep(5000);
-                    System.out.println("change value..." + System.currentTimeMillis());
+                    long time = System.currentTimeMillis();
+                    System.out.println("change value..." + time);
 
-                    c.setConsumption(5);
-                    server.smartGridModel.save();
+                    c.jump(time).then(kObject -> {
+                        ((Concentrator) kObject).setConsumption(5);
+                        server.smartGridModel.save();
+                    });
                 }
 
             } catch (Exception e) {

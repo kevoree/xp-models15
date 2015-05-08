@@ -3,10 +3,7 @@
     "thomas/models15": "/Users/thomas/xp-models15/decking/dockerbase"
   },
   "containers": {
-    "server": {
-      "image": "thomas/models15",
-      "dependencies": ["redis"]
-    },
+
     "client": {
       "image": "thomas/models15",
       "dependencies": ["redis"]
@@ -18,7 +15,7 @@
     }
   },
   "clusters": {
-    "main": ["redis(1)","server(1)","client(1)"]
+    "main": ["redis(1)","client(250)"]
   },
   "groups": {
 

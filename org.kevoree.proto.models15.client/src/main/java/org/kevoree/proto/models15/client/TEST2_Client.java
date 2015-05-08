@@ -5,13 +5,11 @@ import org.kevoree.modeling.api.KDefer;
 import org.kevoree.modeling.api.KObject;
 import org.kevoree.modeling.api.data.manager.AccessMode;
 import org.kevoree.modeling.databases.redis.RedisContentDeliveryDriver;
-import org.kevoree.modeling.databases.websocket.WebSocketClient;
 import org.kevoree.proto.models15.SmartGridModel;
 import org.kevoree.proto.models15.SmartGridUniverse;
 import org.kevoree.proto.models15.SmartGridView;
 import org.kevoree.test.models15.Concentrator;
 import org.kevoree.test.models15.SmartGrid;
-import org.kevoree.test.models15.SmartMeter;
 import org.kevoree.test.models15.meta.MetaConcentrator;
 import org.kevoree.test.models15.meta.MetaSmartGrid;
 
@@ -61,7 +59,7 @@ public class TEST2_Client {
         smartGridModel = new SmartGridModel();
         //smartGridModel.setContentDeliveryDriver(new WebSocketClient("ws://localhost:8080"));
 
-        RedisContentDeliveryDriver driver = new RedisContentDeliveryDriver("localhost", 6379);
+        RedisContentDeliveryDriver driver = new RedisContentDeliveryDriver("10.91.0.133", 6379);
         smartGridModel.setContentDeliveryDriver(driver);
 
         smartGridModel.connect().then(new Callback<Throwable>() {
@@ -89,10 +87,10 @@ public class TEST2_Client {
                                 defer.setJob(kCurrentDefer -> {
                                     KObject[] arr = (KObject[]) kCurrentDefer.resultByDefer(getter);
                                     Concentrator c = (Concentrator) arr[0];
-                                    System.out.println("client found: " + c.getName());
+                                    //System.out.println("client found: " + c.getName());
 
                                     c.listen(0, (kObject1, metas) -> {
-                                        System.out.println(nodeId + " change received at " + System.currentTimeMillis());
+                                        System.out.println((System.currentTimeMillis() - kObject1.now()));
                                     });
                                 });
                                 defer.ready();

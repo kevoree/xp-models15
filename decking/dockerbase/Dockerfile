@@ -12,8 +12,6 @@ RUN chmod +x /lib/*
 
 ADD dockerbase/cacerts ${JAVA_HOME}/lib/security/
 
-ADD dockerbase/server.jar server.jar
 ADD dockerbase/client.jar client.jar
-ADD dockerbase/start.sh start.sh
 
-ENTRYPOINT ["./start.sh"]
+ENTRYPOINT ["java","-jar","client.jar"]
