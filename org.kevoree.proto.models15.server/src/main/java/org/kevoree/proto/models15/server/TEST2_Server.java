@@ -1,9 +1,16 @@
 package org.kevoree.proto.models15.server;
 
 import org.kevoree.modeling.api.Callback;
+import org.kevoree.modeling.api.KDefer;
+import org.kevoree.modeling.api.KObject;
 import org.kevoree.modeling.databases.websocket.WebSocketWrapper;
-import org.kevoree.proto.models15.*;
+import org.kevoree.proto.models15.SmartGridModel;
+import org.kevoree.proto.models15.SmartGridUniverse;
+import org.kevoree.proto.models15.SmartGridView;
+import org.kevoree.test.models15.Concentrator;
 import org.kevoree.test.models15.SmartGrid;
+import org.kevoree.test.models15.meta.MetaConcentrator;
+import org.kevoree.test.models15.meta.MetaSmartGrid;
 
 import java.util.HashMap;
 
@@ -16,7 +23,7 @@ public class TEST2_Server {
 
     private SmartGridModel smartGridModel;
     private SmartGridView smartGridView;
-
+    private SmartGrid grid;
 
     public void start(int concentratorLayers, int subStations, int meters, Runnable next) {
 
@@ -32,7 +39,11 @@ public class TEST2_Server {
                     smartGridView = baseUniverse.time(originOfTime);
 
                     HashMap<Integer, Integer> stats = new HashMap<Integer, Integer>();
-                    SmartGrid grid = ModelBuilder.buildModel(smartGridView, concentratorLayers, subStations, meters, stats);
+                    grid = ModelBuilder.buildModel(smartGridView, concentratorLayers, subStations, meters, stats);
+
+                    Concentrator c = smartGridView.createConcentrator();
+                    c.setName("c");
+                    grid.addConcentrators(c);
 
                     System.out.println("Concentrators: " + stats.get(1) + " Meters: " + stats.get(2) + " ALL:" + stats.get(0));
                     smartGridView.setRoot(grid).then(new Callback<Throwable>() {
@@ -55,8 +66,6 @@ public class TEST2_Server {
                                     }
                                 }
                             });
-
-
                         }
                     });
                 }
@@ -71,7 +80,48 @@ public class TEST2_Server {
 
 
     public static void main(String[] args) {
-        new TEST2_Server().start(3, 5, 10, null);
+        TEST2_Server server = new TEST2_Server();
+
+        server.start(3, 5, 10, null);
+
+        // wait
+        System.out.println("waiting...");
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("loading concentrator...");
+        // load smart meter 1_1
+        KDefer defer = server.grid.traversal().traverse(MetaSmartGrid.REF_CONCENTRATORS)
+                .withAttribute(MetaConcentrator.ATT_NAME, "c")
+                .done();
+
+        KDefer result = server.grid.universe().model().defer();
+        result.wait(defer);
+
+        result.setJob(kCurrentDefer -> {
+            try {
+                KObject[] resultArr = (KObject[]) kCurrentDefer.resultByDefer(defer);
+                Concentrator c = (Concentrator) resultArr[0];
+                System.out.println("found: " + c.getName());
+
+                while (true) {
+                    // changing value
+                    Thread.sleep(5000);
+                    System.out.println("change value...");
+
+                    c.setConsumption(5);
+                    server.smartGridModel.save();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        result.ready();
+
     }
 
 }
