@@ -1,19 +1,24 @@
 {
   "images": {
-    "thomas/models15": "/Users/duke/Documents/dev/kevoreeTeam/xp-models15/decking/dockerbase"
+    "thomas/models15": "/Users/thomas/xp-models15/decking/dockerbase"
   },
   "containers": {
-    "node": {
+    "server": {
       "image": "thomas/models15",
       "dependencies": ["redis"]
     },
+    "client": {
+      "image": "thomas/models15",
+      "dependencies": ["redis"]
+    },
+
     "redis":{
       "image": "redis",
       "port":["6379:6379"]
     }
   },
   "clusters": {
-    "main": ["redis(1)","node(1)"]
+    "main": ["redis(1)","server(1)","client(1)"]
   },
   "groups": {
 
