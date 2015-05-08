@@ -1,0 +1,16 @@
+{
+  "images": {
+    "thomas/models15": "/Users/duke/Documents/dev/kevoreeTeam/xp-models15/decking/dockerbase"
+  },
+  "containers": {
+    "node": {
+      "image": "thomas/models15"
+    }
+  },
+  "clusters": {
+    "main": ["node(1)"]
+  },
+  "groups": {
+    
+  }
+}
