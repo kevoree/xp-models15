@@ -4,13 +4,18 @@
   },
   "containers": {
     "node": {
-      "image": "thomas/models15"
+      "image": "thomas/models15",
+      "dependencies": ["redis"]
+    },
+    "redis":{
+      "image": "redis",
+      "port":["6379:6379"]
     }
   },
   "clusters": {
-    "main": ["node(1)"]
+    "main": ["redis(1)","node(1)"]
   },
   "groups": {
-    
+
   }
 }
