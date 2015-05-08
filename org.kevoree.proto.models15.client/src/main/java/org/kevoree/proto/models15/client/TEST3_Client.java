@@ -9,6 +9,7 @@ import org.kevoree.test.models15.SmartGrid;
 /**
  * Created by gnain on 07/05/15.
  */
+/*
 public class TEST3_Client {
 
     private long rootUuid;
@@ -36,21 +37,7 @@ public class TEST3_Client {
                                 SmartGrid smartGridRoot = (SmartGrid) kObject;
                                // int sizeOfMeters = smartGridRoot.sizeOfMeters();
                                 //long start = System.nanoTime();
-                                /*
-                                smartGridRoot.traversal().traverse(MetaSmartGrid.REF_METERS).withAttribute(MetaSmartMeter.ATT_NAME, "" + (int) (sizeOfMeters / 3)).done().then(new Callback<KObject[]>() {
-                                    @Override
-                                    public void on(KObject[] kObjects) {
-                                        long end = System.nanoTime();
-                                        //int accessTime = (int)((end - start)/1000000);
-                                        //System.out.println(accessTime);
-                                        kObjects[0].listen(0, new KEventListener() {
-                                            @Override
-                                            public void on(KObject src, Meta[] modifications) {
-                                                System.out.println(""+(System.currentTimeMillis() - src.now()));
-                                            }
-                                        });
-                                    }
-                                });*/
+
                             } else {
                                 System.err.println("Root not found");
                             }
@@ -69,3 +56,4 @@ public class TEST3_Client {
     }
 
 }
+*/

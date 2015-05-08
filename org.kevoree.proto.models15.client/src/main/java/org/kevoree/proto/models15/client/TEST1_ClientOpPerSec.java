@@ -11,6 +11,7 @@ import org.kevoree.test.models15.SmartGrid;
 /**
  * Created by gnain on 07/05/15.
  */
+/*
 public class TEST1_ClientOpPerSec {
 
     private long rootUuid;
@@ -38,30 +39,7 @@ public class TEST1_ClientOpPerSec {
                                 SmartGrid smartGridRoot = (SmartGrid) kObject;
                                 //int sizeOfMeters = smartGridRoot.sizeOfMeters();
                                 long start = System.nanoTime();
-                                /*
-                                smartGridRoot.traversal().traverse(MetaSmartGrid.REF_METERS).withAttribute(MetaSmartMeter.ATT_NAME, "" + (int) (sizeOfMeters / 3)).done().then(new Callback<KObject[]>() {
-                                    @Override
-                                    public void on(KObject[] kObjects) {
-                                        long end = System.nanoTime();
-                                        System.out.println("Read:" + ((end-start)/1000000));
-                                        SmartMeter meter = (SmartMeter) kObjects[0];
-                                        meter.jump(System.currentTimeMillis()).then(new Callback<KObject>() {
-                                            @Override
-                                            public void on(KObject kObject) {
-                                                SmartMeter meter2 = (SmartMeter) kObject;
-                                                int opNum = 0;
-                                                long timeLimit = System.currentTimeMillis() + 1000;
-                                                while (System.currentTimeMillis() <= timeLimit) {
-                                                    meter2.setConsumption(opNum);
-                                                    smartGridModel.save();
-                                                    opNum++;
-                                                }
-                                                System.out.println("OpNum:" + opNum);
-                                            }
-                                        });
 
-                                    }
-                                });*/
                             } else {
                                 System.err.println("Root not found");
                             }
@@ -80,3 +58,4 @@ public class TEST1_ClientOpPerSec {
     }
 
 }
+*/
