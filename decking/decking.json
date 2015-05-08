@@ -15,7 +15,7 @@
     }
   },
   "clusters": {
-    "main": ["redis(1)","client(250)"]
+    "main": ["redis(1)","client(200)"]
   },
   "groups": {
 
