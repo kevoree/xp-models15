@@ -1,4 +1,3 @@
-//KMF_VERSION=4.18.4-SNAPSHOT
 //VERSION=1.0.0-SNAPSHOT
 class org.kevoree.test.models15.SmartGrid {
     @contained concentrators : org.kevoree.test.models15.Concentrator[0,*]

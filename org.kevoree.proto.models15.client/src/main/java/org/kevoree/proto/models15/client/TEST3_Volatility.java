@@ -22,7 +22,7 @@ public class TEST3_Volatility {
 
     SmartGridModel smartGridModel;
 
-    public void start() {
+    public void start(Runnable onEnd) {
 
         smartGridModel = new SmartGridModel();
         smartGridModel.setContentDeliveryDriver(new WebSocketClient("ws://localhost:8080"));
@@ -58,6 +58,9 @@ public class TEST3_Volatility {
                                                 public void on(Throwable throwable) {
                                                     long endSave = System.nanoTime();
                                                     System.out.println("Change time:" + ((endChange - start) / 1000000) + " Save time:" + ((endSave - endChange) / 1000000) +" changed:" + changes[0]);
+                                                    if(onEnd != null){
+                                                        onEnd.run();
+                                                    }
                                                 }
                                             });
                                             return VisitResult.STOP;
@@ -93,7 +96,7 @@ public class TEST3_Volatility {
     public static void main(String[] args) {
         for (int i = 0; i < 1; i++) {
             TEST3_Volatility c = new TEST3_Volatility();
-            c.start();
+            c.start(null);
         }
     }
 

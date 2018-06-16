@@ -22,16 +22,16 @@ public class TEST2_Client {
     public long originOfTime = 0L;
     private String clientId;
 
-    public KDefer<Concentrator> getDeepestConcentrator(SmartGridView smartGridView, long concentratorUUID) {
-        KDefer resultTask = smartGridView.universe().model().defer();
+    public KDefer<Concentrator> getDeepestConcentrator(SmartGridModel model, SmartGridView smartGridView, long concentratorUUID) {
+        KDefer resultTask = model.defer();
         smartGridView.lookup(concentratorUUID).then(new Callback<KObject>() {
             @Override
             public void on(KObject kObject) {
                 Concentrator c = (Concentrator) kObject;
                 if (c.sizeOfConcentrators() > 0) {
                     int concentratorIndex = c.sizeOfConcentrators() / 3;
-                    long lowerConcentratorUUID = c.universe().model().manager().entry(c, AccessMode.READ).getRef(MetaConcentrator.REF_CONCENTRATORS.index())[concentratorIndex];
-                    getDeepestConcentrator(smartGridView, lowerConcentratorUUID).then(new Callback<Concentrator>() {
+                    long lowerConcentratorUUID = model.manager().entry(c, AccessMode.READ).getRef(MetaConcentrator.REF_CONCENTRATORS.index())[concentratorIndex];
+                    getDeepestConcentrator(model, smartGridView, lowerConcentratorUUID).then(new Callback<Concentrator>() {
                         @Override
                         public void on(Concentrator localConcentrator) {
                             resultTask.setJob(resultJob -> {
@@ -82,7 +82,7 @@ public class TEST2_Client {
                                         .withAttribute(MetaConcentrator.ATT_NAME, "c")
                                         .done();
 
-                                KDefer defer = smartGridView.universe().model().defer();
+                                KDefer defer = smartGridModel.defer();
                                 defer.wait(getter);
                                 defer.setJob(kCurrentDefer -> {
                                     KObject[] arr = (KObject[]) kCurrentDefer.resultByDefer(getter);

@@ -23,16 +23,16 @@ public class TEST3_ClientOpPerSec {
     public long originOfTime = 0L;
     private String clientId;
 
-    public KDefer<Concentrator> getDeepestConcentrator(SmartGridView smartGridView, long concentratorUUID) {
-        KDefer resultTask = smartGridView.universe().model().defer();
+    public KDefer<Concentrator> getDeepestConcentrator(SmartGridModel smartGridModel, SmartGridView smartGridView, long concentratorUUID) {
+        KDefer resultTask = smartGridModel.defer();
         smartGridView.lookup(concentratorUUID).then(new Callback<KObject>() {
             @Override
             public void on(KObject kObject) {
                 Concentrator c = (Concentrator) kObject;
                 if (c.sizeOfConcentrators() > 0) {
                     int concentratorIndex = c.sizeOfConcentrators() / 3;
-                    long lowerConcentratorUUID = c.universe().model().manager().entry(c, AccessMode.READ).getRef(MetaConcentrator.REF_CONCENTRATORS.index())[concentratorIndex];
-                    getDeepestConcentrator(smartGridView, lowerConcentratorUUID).then(new Callback<Concentrator>() {
+                    long lowerConcentratorUUID = smartGridModel.manager().entry(c, AccessMode.READ).getRef(MetaConcentrator.REF_CONCENTRATORS.index())[concentratorIndex];
+                    getDeepestConcentrator(smartGridModel, smartGridView, lowerConcentratorUUID).then(new Callback<Concentrator>() {
                         @Override
                         public void on(Concentrator localConcentrator) {
                             resultTask.setJob(resultJob -> {
@@ -52,6 +52,7 @@ public class TEST3_ClientOpPerSec {
     }
 
     SmartGridModel smartGridModel;
+
     public void start(Runnable next) {
 
         smartGridModel = new SmartGridModel();
@@ -72,12 +73,12 @@ public class TEST3_ClientOpPerSec {
                                 SmartGrid smartGridRoot = (SmartGrid) kObject;
 
                                 int concentratorIndex = smartGridRoot.sizeOfConcentrators() / 3;
-                                long concentratorUUID = smartGridRoot.universe().model().manager().entry(smartGridRoot, AccessMode.READ).getRef(MetaSmartGrid.REF_CONCENTRATORS.index())[concentratorIndex];
-                                getDeepestConcentrator(smartGridView, concentratorUUID).then(new Callback<Concentrator>() {
+                                long concentratorUUID = smartGridModel.manager().entry(smartGridRoot, AccessMode.READ).getRef(MetaSmartGrid.REF_CONCENTRATORS.index())[concentratorIndex];
+                                getDeepestConcentrator(smartGridModel, smartGridView, concentratorUUID).then(new Callback<Concentrator>() {
                                     @Override
                                     public void on(Concentrator concentrator) {
                                         int meterIndex = concentrator.sizeOfMeters() / 3;
-                                        long meterUUID = concentrator.universe().model().manager().entry(concentrator, AccessMode.READ).getRef(MetaConcentrator.REF_METERS.index())[meterIndex];
+                                        long meterUUID = smartGridModel.manager().entry(concentrator, AccessMode.READ).getRef(MetaConcentrator.REF_METERS.index())[meterIndex];
                                         smartGridView.lookup(meterUUID).then(new Callback<KObject>() {
                                             @Override
                                             public void on(KObject kObject) {

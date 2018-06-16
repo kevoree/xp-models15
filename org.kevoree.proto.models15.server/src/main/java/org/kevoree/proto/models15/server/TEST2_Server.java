@@ -102,7 +102,7 @@ public class TEST2_Server {
                 .withAttribute(MetaConcentrator.ATT_NAME, "c")
                 .done();
 
-        KDefer result = server.grid.universe().model().defer();
+        KDefer result = server.smartGridModel.defer();
         result.wait(defer);
 
         result.setJob(kCurrentDefer -> {

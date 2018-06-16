@@ -81,14 +81,14 @@ public class TEST1_Client {
 
 
     public KDefer<Concentrator> getDeepestConcentrator(SmartGridView smartGridView, long concentratorUUID) {
-        KDefer resultTask = smartGridView.universe().model().defer();
+        KDefer resultTask = smartGridModel.defer();
         smartGridView.lookup(concentratorUUID).then(new Callback<KObject>() {
             @Override
             public void on(KObject kObject) {
                 Concentrator c = (Concentrator) kObject;
                 if (c.sizeOfConcentrators() > 0) {
                     int concentratorIndex = c.sizeOfConcentrators() / 3;
-                    long lowerConcentratorUUID = c.universe().model().manager().entry(c, AccessMode.READ).getRef(MetaConcentrator.REF_CONCENTRATORS.index())[concentratorIndex];
+                    long lowerConcentratorUUID = smartGridModel.manager().entry(c, AccessMode.READ).getRef(MetaConcentrator.REF_CONCENTRATORS.index())[concentratorIndex];
                     getDeepestConcentrator(smartGridView, lowerConcentratorUUID).then(new Callback<Concentrator>() {
                         @Override
                         public void on(Concentrator localConcentrator) {
@@ -109,6 +109,7 @@ public class TEST1_Client {
     }
 
     private SmartGridModel smartGridModel;
+
     public void start(Runnable next) {
 
         smartGridModel = new SmartGridModel();
@@ -130,7 +131,7 @@ public class TEST1_Client {
                                 SmartGrid smartGridRoot = (SmartGrid) kObject;
 
                                 int concentratorIndex = smartGridRoot.sizeOfConcentrators() / 3;
-                                long concentratorUUID = smartGridRoot.universe().model().manager().entry(smartGridRoot, AccessMode.READ).getRef(MetaSmartGrid.REF_CONCENTRATORS.index())[concentratorIndex];
+                                long concentratorUUID = smartGridModel.manager().entry(smartGridRoot, AccessMode.READ).getRef(MetaSmartGrid.REF_CONCENTRATORS.index())[concentratorIndex];
                                 getDeepestConcentrator(smartGridView, concentratorUUID).then(new Callback<Concentrator>() {
                                     @Override
                                     public void on(Concentrator concentrator) {
@@ -161,8 +162,8 @@ public class TEST1_Client {
         smartGridModel.manager().cdn().close(new Callback<Throwable>() {
             @Override
             public void on(Throwable throwable) {
-                if(next != null) {
-                next.run();
+                if (next != null) {
+                    next.run();
                 }
             }
         });
